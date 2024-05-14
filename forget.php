@@ -4,32 +4,26 @@ if(isset($_SESSION['email']))
 {
     $email= $_SESSION['email'];
 }
-// Step 1: Handle the form submission
+
 if(isset($_POST['send']))
 {
     $submittedEmail = $_POST['email'];
     
-    // Step 2: Check if the submitted email exists in your user database
-    // Perform the necessary checks here, such as querying the database
-    
-    // Step 3: Generate a random code
+
     $randomCode = mt_rand(100000, 999999);
-    // Step 4: Store the random code and the associated email in your database
-    // Store the code and email in a database table or any other suitable storage mechanism
-    
-    // Step 5: Send the email with the random code
+
     $to = $submittedEmail;
     $subject = "Password Reset Code";
     $message = "Your password reset code is: " . $randomCode;
-    $headers = "From: mhshafe83@gmail.com\r\n"; // Replace with your email address
+    $headers = "From: xyz@gmail.com\r\n"; 
     
     $mailSent = mail($to, $subject, $message, $headers);
     if ($mailSent) {
-        //database query start
-		$db = mysqli_connect("localhost","root","","hotel_management");
-		$sql = "UPDATE customer SET rendom_code = '$randomCode ' WHERE email = '$submittedEmail'";
-		mysqli_query($db,$sql); //data insertion
-		//database query end
+        
+		$db = mysqli_connect("localhost","root","", "carshop");
+		$sql = "UPDATE customer SET random_code = '$randomCode ' WHERE email = '$submittedEmail'";
+		mysqli_query($db,$sql); 
+		
         echo "<center>An email with the password reset code has been sent to your email address.</center>";
     } else {
         echo "<center>Failed to send the email. Please try again.</center>";
@@ -41,22 +35,22 @@ if(isset($_POST['update']))
 	$pass2 = $_POST['pass2'];
     $email = $_POST['email'];
     $code = $_POST['code'];
-    //database query start
-		$db = mysqli_connect("localhost","root","","hotel_management");
+
+		$db = mysqli_connect("localhost","root","","carshop");
 		$sql = "select rendom_code from customer WHERE email = '$email';";
 		$result = mysqli_query($db, $sql);
         $row = mysqli_fetch_assoc($result);
-        $code1 = $row['code']; //data insertion
-		//database query end
+        $code1 = $row['code']; 
+		
 	if ($code == $code1)
     {
         if($pass1 == $pass2)
 	{
-		//database query start
+		
 		$db = mysqli_connect("localhost","root","","hotel_management");
 		$sql = "UPDATE login SET password = '$pass1' WHERE email = '$email';";
-		mysqli_query($db,$sql); //data insertion
-		//database query end
+		mysqli_query($db,$sql); 
+		
 		echo "<center><i>Password successfully changed</i></center>";
         echo "<center><a href='login.php'>Login</a></center>";
 		}
@@ -73,7 +67,7 @@ if(isset($_POST['update']))
     
 }
 ?>
-<!-- Display the forget password form-->
+
 <!DOCTYPE html>
 <html>
 <head>
